@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct SwiftDataDemoApp: App {
+    let container: ModelContainer
+    
+    init() {
+        do {
+            container = try ModelContainer(for: Video.self, Keyword.self, migrationPlan: DatabaseMigrationPlan.self)
+        } catch {
+            fatalError("Failed to initialize model container")
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                VideosView()
+            }
         }
+        .modelContainer(container)
     }
 }
